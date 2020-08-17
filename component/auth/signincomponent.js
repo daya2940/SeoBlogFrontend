@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { signin } from '../../actions/auth'
+import { useState,useEffect } from 'react';
+import { signin,authenticate,isAuth } from '../../actions/auth'
+import Router from 'next/router';
 
 const SigninComponent = () => {
   const [values, setValues] = useState({
-    name: '',
     email: '',
     password: '',
     error: '',
@@ -13,10 +13,15 @@ const SigninComponent = () => {
   });
 
 
-  const { name, email, password, error, loading, message, showForm } = values;
+  const { email, password, error, loading, message, showForm } = values;
+
+  useEffect(() => {
+    isAuth() && Router.push('/');
+  })
+
   const showLoading = () => (loading ? <div className="alert alert-info">Loading...</div> : '');
   const showError = () => (error ? <div className="alert alert-info">{error}</div> : '');
-  const showMessage = () => (message ? <div className="alert alert-danger">{message}</div> : '');
+  const showMessage = () => (message ? <div className="alert alert-success">{message}</div> : '');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,16 +31,11 @@ const SigninComponent = () => {
     signin(user).then(data => {
       console.log(data);
       if (data.error) {
-        setValues( {...values});
+        setValues( {...values,error: data.error,loading:false});
       }
       else {
-        setValues({
-          ...values,
-          email: '',
-          password: '',
-          error:'',
-          loading:false,
-          message: data.message
+        authenticate(data ,() => {
+          Router.push('/');
         })
       }
     });
@@ -43,7 +43,7 @@ const SigninComponent = () => {
 
 
   const handleChange = name => e => {
-    setValues({ ...values, error: false})
+    setValues({ ...values, error: false, [name]:e.target.value});
   }
 
 

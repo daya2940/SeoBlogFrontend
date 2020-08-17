@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { signup } from '../../actions/auth'
+import { Router } from 'next/router';
 
 const SignupComponent = () => {
   const [values, setValues] = useState({
@@ -14,9 +15,14 @@ const SignupComponent = () => {
 
 
   const { name, email, password, error, loading, message, showForm } = values;
+
+  useEffect(() => {
+    isAuth() && Router.push('/');
+  })
+
   const showLoading = () => (loading ? <div className="alert alert-info">Loading...</div> : '');
   const showError = () => (error ? <div className="alert alert-info">{error}</div> : '');
-  const showMessage = () => (message ? <div className="alert alert-danger">{message}</div> : '');
+  const showMessage = () => (message ? <div className="alert alert-success">{message}</div> : '');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +33,7 @@ const SignupComponent = () => {
     signup(user).then(data => {
       console.log(data);
       if (data.error) {
-        setValues( {...values});
+        setValues( {...values ,error: data.error,loading:false});
       }
       else {
         setValues({

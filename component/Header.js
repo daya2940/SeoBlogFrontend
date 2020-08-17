@@ -1,6 +1,9 @@
-import{ useState } from 'react';
-import { APP_NAME} from '../config'
+import { useState } from 'react';
+import { APP_NAME } from '../config'
 import Link from 'next/link';
+import { signout, isAuth } from '../actions/auth';
+import Router from 'next/router';
+
 
 import {
   Collapse,
@@ -20,21 +23,32 @@ const Header = (props) => {
     <div>
       <Navbar color="light" light expand="md">
         <Link href="/">
-        <NavLink className="font-weight-bold">{ APP_NAME}</NavLink>
+          <NavLink className="font-weight-bold">{APP_NAME}</NavLink>
         </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <NavItem>
-              <Link href="/signup">
-                <NavLink>Signup</NavLink>
-                </Link>
-            </NavItem>
-            <NavItem>
-              <Link href="/signin">
-                <NavLink>Signin</NavLink>
-                </Link>
-            </NavItem>
+            {!isAuth() && (
+              <React.Fragment>
+                <NavItem>
+                  <Link href="/signup">
+                    <NavLink style={{ cursor: 'pointer' }}>Signup</NavLink>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/signin">
+                    <NavLink style={{ cursor: 'pointer' }}>Signin</NavLink>
+                  </Link>
+                </NavItem>
+              </React.Fragment>
+            )}
+            {isAuth() && (
+              <NavItem>
+                <NavLink style={{ cursor: 'pointer' }} onClick={() => signout(() => {
+                  Router.replace('/signin')
+                })}>Signout</NavLink>
+              </NavItem>
+            )}
           </Nav>
         </Collapse>
       </Navbar>
