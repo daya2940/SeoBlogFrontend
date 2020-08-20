@@ -9,7 +9,7 @@ const SigninComponent = () => {
     error: '',
     loading: false,
     message: '',
-    showForm: true
+    showForm: true,
   });
 
 
@@ -35,7 +35,11 @@ const SigninComponent = () => {
       }
       else {
         authenticate(data ,() => {
-          Router.push('/');
+          if(isAuth() && data.role===1){
+            Router.push('/admin');
+          }else{
+            Router.push('/user');
+          }
         })
       }
     });
