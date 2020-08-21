@@ -2,11 +2,11 @@ import fetch from 'isomorphic-fetch';
 import cookie from 'js-cookie';
 import { API } from '../config';
 
-export const signup =(user) => {
-  return fetch(`${API}/signup`,{
+export const signup = (user) => {
+  return fetch(`${API}/signup`, {
     method: 'POST',
     headers: {
-      Accept: 'application/json','content-type': 'application/json'
+      Accept: 'application/json', 'content-type': 'application/json'
     },
     body: JSON.stringify(user)
   }).then(response => {
@@ -16,11 +16,11 @@ export const signup =(user) => {
   });
 };
 
-export const signin =(user) => {
-  return fetch(`${API}/signin`,{
+export const signin = (user) => {
+  return fetch(`${API}/signin`, {
     method: 'POST',
     headers: {
-      Accept: 'application/json','content-type': 'application/json'
+      Accept: 'application/json', 'content-type': 'application/json'
     },
     body: JSON.stringify(user)
   }).then(response => {
@@ -35,70 +35,70 @@ export const signout = (next) => {
   removeSLocalStorage('user');
   next();
 
-  return fetch(`${API}/signout`,{
+  return fetch(`${API}/signout`, {
     method: 'GET'
   }).then(response => {
-     console.log('logout successful')
+    console.log('logout successful')
   }).catch(err => console.log(err));
 }
 
 //set cookie
 
-export const setCookie =(key,value)=>{
-  if(process.browser){
-    cookie.set(key,value,{expires:1});
+export const setCookie = (key, value) => {
+  if (process.browser) {
+    cookie.set(key, value, { expires: 1 });
   }
 }
 
 //remove cookie
 
-export const removeCookie =(key)=>{
-  if(process.browser){
-    cookie.remove(key,{
-      expires:1
+export const removeCookie = (key) => {
+  if (process.browser) {
+    cookie.remove(key, {
+      expires: 1
     });
   }
 }
 
 //get cookie
 
-export const getCookie =(key)=>{
-  if(process.browser){
+export const getCookie = (key) => {
+  if (process.browser) {
     return cookie.get(key);
   }
 }
 
 // set localstorage
 
-export const setLocalStorage = (key,value) => {
-  if(process.browser){
-    localStorage.setItem(key,JSON.stringify(value));
+export const setLocalStorage = (key, value) => {
+  if (process.browser) {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 }
 
 //remove localStorage
 
 export const removeSLocalStorage = (key) => {
-  if(process.browser){
+  if (process.browser) {
     localStorage.removeItem(key);
   }
 }
 
 //authenticate
-export const authenticate = (data,next) => {
-  setCookie('token',data.token);
-  setLocalStorage('user',data.user);
+export const authenticate = (data, next) => {
+  setCookie('token', data.token);
+  setLocalStorage('user', {user: data.user,role: data.role,name: data.name});
   next();
 }
 
 export const isAuth = () => {
-  if(process.browser){
+  if (process.browser) {
     const cookieChecked = getCookie('token');
-    if(cookieChecked){
-      if(localStorage.getItem('user')){
+    if (cookieChecked) {
+      if (localStorage.getItem('user')) {
         return JSON.parse(localStorage.getItem('user'));
       }
-      else{
+      else {
         return false;
       }
     }

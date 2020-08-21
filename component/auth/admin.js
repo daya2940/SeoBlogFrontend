@@ -7,9 +7,9 @@ const Admin = ({ children }) => {
     if (!isAuth()) {
       Router.push('/siginin');
     }
-    // else if(isAuth().role!==1){
-    //   Router.push('/');
-    // }
+    else if(isAuth().role!==1){
+      Router.push('/');
+    }
   }, []);
   return <React.Fragment>{children}</React.Fragment>
 }
