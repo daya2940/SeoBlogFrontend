@@ -3,6 +3,7 @@ import { APP_NAME } from '../config'
 import Link from 'next/link';
 import { signout, isAuth } from '../actions/auth';
 import Router from 'next/router';
+import Nprogress from 'nprogress';
 
 
 import {
@@ -13,6 +14,11 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+
+Router.onRouteChangeStart = url => Nprogress.start();
+Router.onRouteChangeComplete = url => Nprogress.done();
+Router.onRouteChangeErr = url => Nprogress.done();
+
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(true);
