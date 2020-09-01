@@ -17,7 +17,7 @@ export const create = (tag, token) => {
 };
 
 export const getAllTags = () => {
-  return fetch(`${API}/categories`, {
+  return fetch(`${API}/Tags`, {
     method: 'GET',
   }).then(response => {
     return response.json();
@@ -28,7 +28,7 @@ export const getAllTags = () => {
 
 
 export const removeTag = (slug, token) => {
-  return fetch(`${API}/category/${slug}`, {
+  return fetch(`${API}/tag/${slug}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json', 'content-type': 'application/json',
