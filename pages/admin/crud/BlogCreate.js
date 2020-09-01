@@ -143,7 +143,6 @@ const BlogCreate = ({ router }) => {
 
     const publishBlog = (e) => {
       e.preventDefault();
-      // console.log(e);
       createBlog(formData, token).then((data) => {
         console.log(data);
         if (data.error) {
@@ -153,20 +152,14 @@ const BlogCreate = ({ router }) => {
           setValue({ ...values, error: data.error })
         }
         else {
-          setValue({ ...values, title: '', error: '', success: `A new blog titled${data.title} is created` });
+          setValue({ ...values, title: '', error: '', success: `A new blog titled ${data.title} is created` });
+          console.log(values.formData);
           setBody('');
           setCategoris([]);
           settags([]);
         }
       });
     };
-
-    // const handleChange = name => e => {
-    //   // console.log(e.target.value);
-    //   const value = name === 'photo' ? e.target.files[0] : e.target.value;
-    //   formData.set(name, value); //instiating form data
-    //   setValue({ ...values, [name]: value, formData, error: '' })
-    // }
 
     const handleBody = (e) => {
       setBody(e);
@@ -207,8 +200,10 @@ const BlogCreate = ({ router }) => {
         <div className="row">
           <div className="col-md-8">
             {createBlogForm()}
-            {showError()}
-            {showSuccess()}
+            <div className="mt-3">
+              {showError()}
+              {showSuccess()}
+            </div>
           </div>
           <div className="col-md-4">
             <div>
