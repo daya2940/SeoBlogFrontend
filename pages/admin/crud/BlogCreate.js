@@ -7,6 +7,7 @@ import { getCookie, isAuth } from '../../../actions/auth'
 import { getAllCategories } from '../../../actions/category'
 import { getAllTags } from '../../../actions/tag'
 import { createBlog } from '../../../actions/blog';
+import Layout from '../../../component/layout'
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false }); //it is imported for rich text editor
 import '../../../node_modules/react-quill/dist/quill.snow.css';
 
@@ -194,6 +195,7 @@ const BlogCreate = ({ router }) => {
   }
 
   return (
+    <Layout>
     <Fragment>
       <h2>Create a new blog</h2>
       <div className="container-fluid">
@@ -231,6 +233,7 @@ const BlogCreate = ({ router }) => {
         </div>
       </div>
     </Fragment>
+    </Layout>
   );
 };
 

@@ -3,7 +3,7 @@ import Admin from '../../../component/auth/admin';
 import BlogCreate from '../../../component/crud/BlogCreate';
 import Tag from '../../../component/crud/tag';
 
-const Blog= () => {
+const Blog = () => {
   return (
     <Layout>
       <Admin>
@@ -22,4 +22,4 @@ const Blog= () => {
   )
 }
 
-export default Blog ;
+export default Blog;
